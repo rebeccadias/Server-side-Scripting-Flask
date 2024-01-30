@@ -25,3 +25,17 @@
 `flask run`
 
 ### Hosting on GCP
+
+1. Create app.yaml
+
+2. Download GCP from
+`https://cloud.google.com/sdk/docs/install-sdk`
+
+3. Unzip the file and run this
+`./google-cloud-sdk/install.sh`
+
+4. Initialize gcloud
+`gcloud init`
+
+5. Deploy the App
+`gcloud app deploy`
