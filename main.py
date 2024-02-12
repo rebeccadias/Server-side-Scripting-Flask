@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 # Replace YOUR_FINNHUB_API_KEY with your actual API key from Finnhub
 FINNHUB_API_KEY = 'cms30mhr01qlk9b10me0cms30mhr01qlk9b10meg'
-FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote'
+# FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote'
+
+FINNHUB_BASE_URL ='https://finnhub.io/api/v1/stock/profile2'
 
 @app.route('/')
 def index():
