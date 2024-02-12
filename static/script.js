@@ -1,10 +1,12 @@
+// Function to fetch and display Company Information; Company Information tab
 document.addEventListener("DOMContentLoaded", function () {
   // Bind the form submission event
   document.getElementById("myForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent the default form submission
 
     const ticker = document.getElementById("ticker").value;
-    fetch(`/search?ticker=${encodeURIComponent(ticker)}`)
+    // fetch(`/search?ticker=${encodeURIComponent(ticker)}`)
+    fetch(`/search/${encodeURIComponent(ticker)}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -46,7 +48,7 @@ function displayData(data) {
     tabsContainer.innerHTML = `
             <div class="tabs">
                 <button class="tablinks active" onclick="openTab(event, 'Company')">Company</button>
-                <button class="tablinks" onclick="openTab(event, 'StockSummary'); fetchAndDisplayStockQuote();">Stock Summary</button>
+                <button class="tablinks" onclick="openTab(event, 'StockSummary'); fetchAndDisplayStockQuote(); recommendationTrends();">Stock Summary</button>
 
                 <button class="tablinks" onclick="openTab(event, 'Charts')">Charts</button>
                 <button class="tablinks" onclick="openTab(event, 'LatestNews')">Latest News</button>
@@ -87,8 +89,8 @@ function displayData(data) {
   }
 }
 
+// Function to fetch and display stock quote; Stock Summary tab
 function fetchAndDisplayStockQuote() {
-  // Assuming you have a way to access the ticker symbol
   const tickerSymbol = document.getElementById("ticker").value;
   if (!tickerSymbol) {
     console.error("Ticker symbol is missing.");
@@ -104,6 +106,7 @@ function fetchAndDisplayStockQuote() {
     })
     .then((data) => {
       const stockSummaryTab = document.getElementById("StockSummary");
+      console.log("Stock Summary tab-Stock Summary data:");
       console.log(data);
       if (data.error) {
         stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
@@ -117,6 +120,41 @@ function fetchAndDisplayStockQuote() {
           <p>Open Price of the Day: $${data.o}</p>
           <p>Previous Close Price: $${data.pc}</p>
         `;
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById(
+        "StockSummary"
+      ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
+    });
+}
+
+function recommendationTrends() {
+  const tickerSymbol = document.getElementById("ticker").value;
+  if (!tickerSymbol) {
+    console.error("Ticker symbol is missing.");
+    return;
+  }
+
+  fetch(`/searchRecommendationTrends/${encodeURIComponent(tickerSymbol)}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const stockSummaryTab = document.getElementById("StockSummary");
+      console.log("Stock Summary tab-Recommendation Trends data:");
+
+      if (data.error) {
+        stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
+      } else {
+        // Update the Stock Summary tab with the quote data
+        //do nothing for now
+        const latestTrends = data[0];
+        console.log(latestTrends);
       }
     })
     .catch((error) => {
