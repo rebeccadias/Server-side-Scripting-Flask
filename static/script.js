@@ -1,35 +1,48 @@
+// var CompanyInfo = "";
+var StockSummary = "";
+// var recommendationTrends = "";
+
 // Function to fetch and display Company Information; Company Information tab
 document.addEventListener("DOMContentLoaded", function () {
-  // Bind the form submission event
-  document.getElementById("myForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent the default form submission
+  document
+    .getElementById("myForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const ticker = document.getElementById("ticker").value;
+      if (!ticker) {
+        console.error("Ticker symbol is missing.");
+        return;
+      }
 
-    const ticker = document.getElementById("ticker").value;
-    // fetch(`/search?ticker=${encodeURIComponent(ticker)}`)
-    fetch(`/search/${encodeURIComponent(ticker)}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data); // Process and display the data as needed
-        displayData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        displayData({ error: error.toString() });
-      });
-  });
+      try {
+        await fetchCompanyInfo(ticker);
+        await Promise.all([
+          fetchStockQuote(ticker),
+          recommendationTrends(ticker),
+        ]);
+        openTab(null, "Company"); // Adjusted for potential event is not defined error
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    });
 });
 
-function clearForm() {
-  // This will reset all form values to their default
-  document.getElementById("myForm").reset();
+async function fetchCompanyInfo(ticker) {
+  return fetch(`/search/${encodeURIComponent(ticker)}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
+    .then((data) => {
+      // CompanyInfo = data;
+      displayCompanyInfo(data);
+      // console.log(data);
+      // displayData(data);
+    });
 }
 
-function displayData(data) {
+function displayCompanyInfo(data) {
+  console.log(data);
   const resultsElement = document.getElementById("results");
   if (!resultsElement) {
     console.error("Results element not found.");
@@ -48,7 +61,7 @@ function displayData(data) {
     tabsContainer.innerHTML = `
             <div class="tabs">
                 <button class="tablinks active" onclick="openTab(event, 'Company')">Company</button>
-                <button class="tablinks" onclick="openTab(event, 'StockSummary'); fetchAndDisplayStockQuote(); recommendationTrends();">Stock Summary</button>
+                <button class="tablinks" onclick="openTab(event, 'StockSummary'); DisplayStockQuote(); ">Stock Summary</button>
 
                 <button class="tablinks" onclick="openTab(event, 'Charts')">Charts</button>
                 <button class="tablinks" onclick="openTab(event, 'LatestNews')">Latest News</button>
@@ -84,13 +97,24 @@ function displayData(data) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
       document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+
+      // If an event is provided, then update the active class based on the event's currentTarget
+      if (evt) {
+        evt.currentTarget.className += " active";
+      } else {
+        // If no event is provided, find the tablink that matches tabName and set it as active manually
+        for (i = 0; i < tablinks.length; i++) {
+          if (tablinks[i].getAttribute("onclick").includes(tabName)) {
+            tablinks[i].className += " active";
+          }
+        }
+      }
     };
   }
 }
 
 // Function to fetch and display stock quote; Stock Summary tab
-function fetchAndDisplayStockQuote() {
+function fetchStockQuote() {
   const tickerSymbol = document.getElementById("ticker").value;
   if (!tickerSymbol) {
     console.error("Ticker symbol is missing.");
@@ -106,20 +130,11 @@ function fetchAndDisplayStockQuote() {
     })
     .then((data) => {
       const stockSummaryTab = document.getElementById("StockSummary");
-      console.log("Stock Summary tab-Stock Summary data:");
-      console.log(data);
+
       if (data.error) {
         stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
       } else {
-        // Update the Stock Summary tab with the quote data
-        stockSummaryTab.innerHTML = `
-          <h3>Stock Summary for ${tickerSymbol}</h3>
-          <p>Current Price: $${data.c}</p>
-          <p>High Price of the Day: $${data.h}</p>
-          <p>Low Price of the Day: $${data.l}</p>
-          <p>Open Price of the Day: $${data.o}</p>
-          <p>Previous Close Price: $${data.pc}</p>
-        `;
+        StockSummary = data;
       }
     })
     .catch((error) => {
@@ -128,6 +143,20 @@ function fetchAndDisplayStockQuote() {
         "StockSummary"
       ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
     });
+}
+
+function DisplayStockQuote() {
+  const stockSummaryTab = document.getElementById("StockSummary");
+  //  Update the Stock Summary tab with the quote data
+  stockSummaryTab.innerHTML = `
+          
+          <p>Current Price: $${StockSummary.c}</p>
+          <p>High Price of the Day: $${StockSummary.h}</p>
+          <p>Low Price of the Day: $${StockSummary.l}</p>
+          <p>Open Price of the Day: $${StockSummary.o}</p>
+          <p>Previous Close Price: $${StockSummary.pc}</p>
+        `;
+  //edit this to display stock summary using html
 }
 
 function recommendationTrends() {
@@ -163,4 +192,8 @@ function recommendationTrends() {
         "StockSummary"
       ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
     });
+}
+function clearForm() {
+  // This will reset all form values to their default
+  document.getElementById("myForm").reset();
 }
