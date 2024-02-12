@@ -1,11 +1,37 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Flask Assignment</title>
-        <link rel = "stylesheet" href = "../static/style.css"></link>
-    </head>
-    <body>
-        <p>Hello from Rebecca</p>
+  <head>
+    <title>Flask Assignment</title>
+    <link rel="stylesheet" href="../static/style.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="section1">
+        <div class="stocksearch">
+          <div class="stocksearch-wordings">Stock Search</div>
+        </div>
 
-        <script src = "../static/script.js"></script>
-    </body>
+        <div class="searchbar">
+          <form id="myForm" action="/search" method="get">
+            <input
+              type="text"
+              id="ticker"
+              name="ticker"
+              required
+              placeholder="Enter Stock Ticker Symbol"
+            /><br /><br />
+
+            <input type="submit" value="Search" />
+            <button type="button" onclick="clearForm()">Clear</button>
+          </form>
+          <!-- Add this inside your main container where appropriate -->
+          <div id="results">
+            <!-- Results will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../static/script.js"></script>
+  </body>
 </html>
