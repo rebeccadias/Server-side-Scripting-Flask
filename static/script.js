@@ -46,7 +46,8 @@ function displayData(data) {
     tabsContainer.innerHTML = `
             <div class="tabs">
                 <button class="tablinks active" onclick="openTab(event, 'Company')">Company</button>
-                <button class="tablinks" onclick="openTab(event, 'StockSummary')">Stock Summary</button>
+                <button class="tablinks" onclick="openTab(event, 'StockSummary'); fetchAndDisplayStockQuote();">Stock Summary</button>
+
                 <button class="tablinks" onclick="openTab(event, 'Charts')">Charts</button>
                 <button class="tablinks" onclick="openTab(event, 'LatestNews')">Latest News</button>
             </div>
@@ -56,11 +57,7 @@ function displayData(data) {
             </div>
             <div id="StockSummary" class="tabcontent" style="display:none;">
                 <h3>Stock Summary</h3>
-                <p>Open: ${data.o}</p>
-                <p>High: ${data.h}</p>
-                <p>Low: ${data.l}</p>
-                <p>Current: ${data.c}</p>
-                <p>Previous Close: ${data.pc}</p>
+                <p>Stock summary will be displayed here.</p>
             </div>
             <div id="Charts" class="tabcontent" style="display:none;">
                 <h3>Charts</h3>
@@ -88,4 +85,44 @@ function displayData(data) {
       evt.currentTarget.className += " active";
     };
   }
+}
+
+function fetchAndDisplayStockQuote() {
+  // Assuming you have a way to access the ticker symbol
+  const tickerSymbol = document.getElementById("ticker").value;
+  if (!tickerSymbol) {
+    console.error("Ticker symbol is missing.");
+    return;
+  }
+
+  fetch(`/searchStockSummaryQuote?ticker=${encodeURIComponent(tickerSymbol)}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const stockSummaryTab = document.getElementById("StockSummary");
+      console.log(data);
+      if (data.error) {
+        stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
+      } else {
+        // Update the Stock Summary tab with the quote data
+        stockSummaryTab.innerHTML = `
+          <h3>Stock Summary for ${tickerSymbol}</h3>
+          <p>Current Price: $${data.c}</p>
+          <p>High Price of the Day: $${data.h}</p>
+          <p>Low Price of the Day: $${data.l}</p>
+          <p>Open Price of the Day: $${data.o}</p>
+          <p>Previous Close Price: $${data.pc}</p>
+        `;
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById(
+        "StockSummary"
+      ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
+    });
 }
