@@ -9,26 +9,37 @@
       <div class="section1">
         <div class="stocksearch">
           <div class="stocksearch-wordings">Stock Search</div>
-          <form id="myForm" action="/search" method="get">
-            <input
-              type="text"
-              id="ticker"
-              name="ticker"
-              required
-              placeholder="Enter Stock Ticker Symbol"
-            /><br /><br />
-
-            <input type="submit" value="Search" />
+          <form id="myForm" onsubmit="event.preventDefault(); searchStock();">
+            <input type="text" id="ticker" name="ticker" required placeholder="Enter Stock Ticker Symbol"><br><br>
+            <input type="submit" value="Search">
             <button type="button" onclick="clearForm()">Clear</button>
           </form>
+          <div id="tabs">
+            <button class="tablink" onclick="openTab(event, 'Company')">Company</button>
+            <button class="tablink" onclick="openTab(event, 'StockSummary')">Stock Summary</button>
+            <button class="tablink" onclick="openTab(event, 'Charts')">Charts</button>
+            <button class="tablink" onclick="openTab(event, 'LatestNews')">Latest News</button>
+        </div>
+        <div id="Company" class="tabcontent">
+            <h3>Company Information</h3>
+            <div id="companyInfo"></div>
+        </div>
+        <div id="StockSummary" class="tabcontent">
+            <h3>Stock Summary</h3>
+            <div id="stockSummary"></div>
+        </div>
+        <div id="Charts" class="tabcontent">
+            <h3>Charts</h3>
+            <div id="charts"></div>
+        </div>
+        <div id="LatestNews" class="tabcontent">
+            <h3>Latest News</h3>
+            <div id="latestNews"></div>
+        </div>
+    </div>
         </div>
 
-        <div class="searchbar">
-          <!-- Add this inside your main container where appropriate -->
-          <div id="results">
-            <!-- Results will be displayed here -->
-          </div>
-        </div>
+      
       </div>
     </div>
 

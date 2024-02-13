@@ -1,199 +1,183 @@
-// var CompanyInfo = "";
-var StockSummary = "";
-// var recommendationTrends = "";
+let stockData = {}; // Object to hold all fetched data
 
-// Function to fetch and display Company Information; Company Information tab
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("myForm")
-    .addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const ticker = document.getElementById("ticker").value;
-      if (!ticker) {
-        console.error("Ticker symbol is missing.");
-        return;
-      }
-
-      try {
-        await fetchCompanyInfo(ticker);
-        await Promise.all([
-          fetchStockQuote(ticker),
-          recommendationTrends(ticker),
-        ]);
-        openTab(null, "Company"); // Adjusted for potential event is not defined error
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    hideAllTabs();
+    document.getElementById('tabs').style.display = 'none'; // Initially hide tabs
 });
 
-async function fetchCompanyInfo(ticker) {
-  return fetch(`/search/${encodeURIComponent(ticker)}`)
-    .then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    })
-    .then((data) => {
-      // CompanyInfo = data;
-      displayCompanyInfo(data);
-      // console.log(data);
-      // displayData(data);
-    });
+function hideAllTabs() {
+  const tabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+  }
+  const tablinks = document.getElementsByClassName("tablink");
+  for (let i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+  }
 }
+
+
+
+async function searchStock() {
+  const ticker = document.getElementById("ticker").value.trim();
+  if (!ticker) {
+      console.error("Ticker symbol is missing.");
+      return;
+  }
+
+  // Show tabs container upon search
+  document.getElementById('tabs').style.display = 'block'; // Make tabs visible
+
+  // Proceed with showing the Company tab as active
+  hideAllTabs();
+  document.getElementById('Company').style.display = 'block';
+  const companyTab = document.querySelector('.tablink[onclick*="Company"]');
+  if (companyTab) {
+      companyTab.classList.add('active');
+  }
+
+  try {
+    // Fetch company profile
+    const profileResponse = await fetch(`/api/stock/info?symbol=${encodeURIComponent(ticker)}`);
+    if (!profileResponse.ok) throw new Error("Network response was not ok");
+    const profileData = await profileResponse.json();
+    console.log(profileData);
+    displayCompanyInfo(profileData.profile);
+    displayStockQuote(profileData.quote,profileData.recommendationTrends);
+  } catch (error) {
+      console.error("Error fetching data:", error);
+      displayError(error.message);
+  }
+
+  try {
+    // Fetch chart data
+    const chartResponse = await fetch(`/api/stock/chart?symbol=${encodeURIComponent(ticker)}`);
+    if (!chartResponse.ok) throw new Error("Network response was not ok");
+    const chartData = await chartResponse.json();
+    console.log(chartData);
+    stockData['chart'] = chartData; // Store chart data for later use
+    // displayCharts()
+  } catch (error) {
+        console.error("Error fetching chart data:", error);
+        displayError(error.message);
+}
+
+try {
+  // Fetch news data
+  const newsResponse = await fetch(`/api/stock/news?symbol=${encodeURIComponent(ticker)}`);
+  if (!newsResponse.ok) throw new Error("Network response was not ok");
+  const newsData = await newsResponse.json();
+  console.log(newsData);
+  stockData['news'] = newsData; // Store news data for later use
+} catch (error) {
+  console.error("Error fetching news data:", error);
+  displayError(error.message);
+}
+  // Show the Company tab as the default view
+  // openTab(null, 'Company');
+}
+
+// Continue with your existing displayCompanyInfo, displayError, clearForm, and openTab functions
+
 
 function displayCompanyInfo(data) {
-  console.log(data);
+  const companyInfoElement = document.getElementById("companyInfo");
+  // Ensure the structure is in place or recreate it
+  companyInfoElement.innerHTML = `
+    <p>Company Name: ${data.name}</p>
+  `;
+  // Continue populating other data as needed
+}
+
+function displayStockQuote(quote,recommendationTrends) {
+  const stockQuoteElement = document.getElementById("stockSummary");
+  // Ensure the structure is in place or recreate it
+  stockQuoteElement.innerHTML = `
+    <p>Current Price: $${quote.c}</p>
+    <p>High Price of the Day: $${quote.h}</p>
+    <p>Low Price of the Day: $${quote.l}</p>
+    <p>Open Price of the Day: $${quote.o}</p>
+    <p>Previous Close Price: $${quote.pc}</p>
+  `;
+}
+
+
+
+
+function displayError(message) {
   const resultsElement = document.getElementById("results");
-  if (!resultsElement) {
-    console.error("Results element not found.");
-    return;
-  }
-
-  // Clear previous results
-  resultsElement.innerHTML = "";
-
-  if (data.error) {
-    resultsElement.innerHTML = `<p>Error: ${data.error}</p>`;
-  } else {
-    // Create Tabs Container
-    const tabsContainer = document.createElement("div");
-    tabsContainer.setAttribute("id", "tabsContainer");
-    tabsContainer.innerHTML = `
-            <div class="tabs">
-                <button class="tablinks active" onclick="openTab(event, 'Company')">Company</button>
-                <button class="tablinks" onclick="openTab(event, 'StockSummary'); DisplayStockQuote(); ">Stock Summary</button>
-
-                <button class="tablinks" onclick="openTab(event, 'Charts')">Charts</button>
-                <button class="tablinks" onclick="openTab(event, 'LatestNews')">Latest News</button>
-            </div>
-            <div id="Company" class="tabcontent" style="display:block;">
-                <h3>Company</h3>
-                <p>Company information will be displayed here.</p>
-            </div>
-            <div id="StockSummary" class="tabcontent" style="display:none;">
-                <h3>Stock Summary</h3>
-                <p>Stock summary will be displayed here.</p>
-            </div>
-            <div id="Charts" class="tabcontent" style="display:none;">
-                <h3>Charts</h3>
-                <p>Charts will be displayed here.</p>
-            </div>
-            <div id="LatestNews" class="tabcontent" style="display:none;">
-                <h3>Latest News</h3>
-                <p>Latest news will be displayed here.</p>
-            </div>
-        `;
-    resultsElement.appendChild(tabsContainer);
-
-    // Adjusted function to switch between tabs
-    window.openTab = function (evt, tabName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-
-      // If an event is provided, then update the active class based on the event's currentTarget
-      if (evt) {
-        evt.currentTarget.className += " active";
-      } else {
-        // If no event is provided, find the tablink that matches tabName and set it as active manually
-        for (i = 0; i < tablinks.length; i++) {
-          if (tablinks[i].getAttribute("onclick").includes(tabName)) {
-            tablinks[i].className += " active";
-          }
-        }
-      }
-    };
-  }
+  resultsElement.innerHTML = `<p>Error: ${message}</p>`;
 }
 
-// Function to fetch and display stock quote; Stock Summary tab
-function fetchStockQuote() {
-  const tickerSymbol = document.getElementById("ticker").value;
-  if (!tickerSymbol) {
-    console.error("Ticker symbol is missing.");
-    return;
-  }
-
-  fetch(`/searchStockSummaryQuote?ticker=${encodeURIComponent(tickerSymbol)}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const stockSummaryTab = document.getElementById("StockSummary");
-
-      if (data.error) {
-        stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
-      } else {
-        StockSummary = data;
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      document.getElementById(
-        "StockSummary"
-      ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
-    });
-}
-
-function DisplayStockQuote() {
-  const stockSummaryTab = document.getElementById("StockSummary");
-  //  Update the Stock Summary tab with the quote data
-  stockSummaryTab.innerHTML = `
-          
-          <p>Current Price: $${StockSummary.c}</p>
-          <p>High Price of the Day: $${StockSummary.h}</p>
-          <p>Low Price of the Day: $${StockSummary.l}</p>
-          <p>Open Price of the Day: $${StockSummary.o}</p>
-          <p>Previous Close Price: $${StockSummary.pc}</p>
-        `;
-  //edit this to display stock summary using html
-}
-
-function recommendationTrends() {
-  const tickerSymbol = document.getElementById("ticker").value;
-  if (!tickerSymbol) {
-    console.error("Ticker symbol is missing.");
-    return;
-  }
-
-  fetch(`/searchRecommendationTrends/${encodeURIComponent(tickerSymbol)}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const stockSummaryTab = document.getElementById("StockSummary");
-      console.log("Stock Summary tab-Recommendation Trends data:");
-
-      if (data.error) {
-        stockSummaryTab.innerHTML = `<p>Error: ${data.error}</p>`;
-      } else {
-        // Update the Stock Summary tab with the quote data
-        //do nothing for now
-        const latestTrends = data[0];
-        console.log(latestTrends);
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      document.getElementById(
-        "StockSummary"
-      ).innerHTML = `<p>Error fetching stock quote: ${error.message}</p>`;
-    });
-}
 function clearForm() {
-  // This will reset all form values to their default
+  // Reset the form input values
   document.getElementById("myForm").reset();
+
+  // Hide the tabs container
+  document.getElementById('tabs').style.display = 'none';
+
+  // Hide the tab contents without clearing their innerHTML
+  const tabContents = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabContents.length; i++) {
+    tabContents[i].style.display = "none";
+  }
+
+  // Remove the 'active' class from all tabs
+  const tabLinks = document.getElementsByClassName("tablink");
+  for (let i = 0; i < tabLinks.length; i++) {
+    tabLinks[i].classList.remove("active");
+  }
+
+  // Optionally, also clear any error or information messages
+  // document.getElementById("results").innerHTML = '';
+}
+
+function displayCharts() {
+  // Process and display chart data
+  // This part depends on how you're integrating with your charting library
+  // For example, you might need to map `chartData` to the format expected by HighCharts or Chart.js
+  // Then, you'd render the chart using the mapped data
+  // For now, let's just log the chart data
+  const chartData = stockData['chart'];
+  // console.log(chartData);
+  // Display chart data
+  const chartElement = document.getElementById("charts");
+  chartElement.innerHTML = `<p>Chart data will be displayed here.</p>`;
+
+}
+
+function displayNews() {
+  const newsData = stockData['news'];
+  const newsElement = document.getElementById("latestNews");
+  let newsHTML = '';
+
+  newsData.forEach(news => {
+      newsHTML += `
+          <div class="news-item">
+              <p><a href="${news.url}" target="_blank">${news.headline}</a></p>
+              <img src="${news.image}" alt="News Image" style="width:100px;"><br>
+              <span>Published at: ${new Date(news.datetime * 1000).toLocaleDateString()}</span>
+          </div>
+      `;
+  });
+
+  newsElement.innerHTML = newsHTML;
+}
+
+
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+
+  if (tabName === 'Charts') displayCharts();
+  if (tabName === 'LatestNews') displayNews();
 }
