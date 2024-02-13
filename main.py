@@ -85,18 +85,6 @@ def get_stock_news():
         return jsonify({"error": str(e)}), 500
 
 
-# @app.route('/search/<ticker>')
-# def search_company(ticker):
-#     print(ticker)
-#     if not ticker:
-#         return jsonify({'error': 'Ticker symbol is required'}), 400
-    
-#     response = requests.get(f"{FINNHUB_COMPANY_PROFILE_URL}?symbol={ticker}&token={FINNHUB_API_KEY}")
-#     if response.status_code == 200:
-#         return jsonify(response.json())
-#     else:
-#         return jsonify({'error': 'Failed to fetch company details from Finnhub'}), response.status_code
-
 @app.route('/searchStockSummaryQuote')
 def search_quote():
     ticker = request.args.get('ticker')
