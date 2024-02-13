@@ -32,6 +32,9 @@ def get_stock_info():
     print(profile_url)
     responses['profile'] = requests.get(profile_url).json()
 
+    if 'error' in responses['profile']:
+        return jsonify({"error": "Invalid ticker symbol"}), 404
+
     # Fetch Stock Quote
     quote_url = f"https://finnhub.io/api/v1/quote?symbol={ticker}&token={FINNHUB_API_KEY}"
     responses['quote'] = requests.get(quote_url).json()
