@@ -18,3 +18,69 @@
   font-family: "Roboto", sans-serif;
 }
 /* CSS for stock search ends*/
+
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Icon styling */
+.svg-inline--fa {
+  width: 1em; /* Adjust the size as needed */
+  height: 1em; /* Adjust the size as needed */
+  fill: grey; /* Icon color */
+}
+
+#myForm {
+  align-items: center;
+}
+
+#myForm input[type="text"] {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#myForm input[type="submit"],
+#myForm button:hover,
+#myForm input[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tablink {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f1f1f1;
+  color: black;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.tablink:hover {
+  background-color: #ddd;
+}
+
+.tablink.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tabcontent h3 {
+  margin-top: 0;
+}
