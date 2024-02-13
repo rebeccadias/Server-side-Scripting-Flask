@@ -57,6 +57,7 @@ input[type="text"] {
   background-color: #ffffff;
   box-sizing: border-box;
   cursor: pointer;
+  border-radius: 15px;
 }
 .search-button {
   width: 50px; /* Increase the width to make the SVG larger */
@@ -67,6 +68,7 @@ input[type="text"] {
   background-color: #ffffff;
   box-sizing: border-box;
   cursor: pointer;
+  border-radius: 15px;
 }
 .search-button svg {
   width: 30%; /* SVG will fill the button's width */
@@ -77,6 +79,29 @@ input[type="text"] {
   height: 30%; /* SVG will fill the button's height */
 }
 
+.error-decor {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: black;
+  font-size: 1em;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  background-color: #d2d2d2;
+  width: 50%;
+  border-radius: 10px;
+}
+.fill {
+  width: 100%;
+  height: 100px;
+}
+
+.hiddentabs-decor {
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+}
 /* CSS for stock search ends*/
 
 /* .tabs-decor {
