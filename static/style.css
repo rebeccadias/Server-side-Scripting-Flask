@@ -4,23 +4,82 @@
 .stocksearch {
   background-image: url("../static/img/back.svg");
   width: 100%;
-  height: 300px;
+  height: 350px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  text-align: center;
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
 }
 
 .stocksearch-wordings {
-  padding: 40px;
+  padding-top: 20px;
+  padding-bottom: 40px;
   font-size: 34px;
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
 }
+
+.form-decor {
+  text-align: center;
+  background-color: white;
+  width: 50%;
+  padding: 0;
+  height: 50px;
+  border-radius: 15px;
+  box-shadow: #ccc 0px 0px 10px;
+}
+
+input[type="text"] {
+  width: 85%;
+  height: 50px;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  border-right: 2.5px solid #ccc;
+  outline: none;
+  box-shadow: none;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+}
+
+.clear-button {
+  width: 50px; /* Increase the width to make the SVG larger */
+  height: 50px; /* Increase the height to make the SVG larger */
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.search-button {
+  width: 50px; /* Increase the width to make the SVG larger */
+  height: 50px; /* Increase the height to make the SVG larger */
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.search-button svg {
+  width: 30%; /* SVG will fill the button's width */
+  height: 30%; /* SVG will fill the button's height */
+}
+.clear-button svg {
+  width: 30%; /* SVG will fill the button's width */
+  height: 30%; /* SVG will fill the button's height */
+}
+
 /* CSS for stock search ends*/
 
-.tabs-decor {
+/* .tabs-decor {
   text-align: center;
 }
 
@@ -34,4 +93,4 @@
 
 .tablink {
   text-decoration: none;
-}
+} */
