@@ -33,14 +33,14 @@
 }
 
 input[type="text"] {
-  width: 80%;
+  width: 85%;
   height: 50px;
   box-sizing: border-box;
   font-size: 16px;
   border-top: none;
   border-left: none;
   border-bottom: none;
-  border-right: 2.5px solid #ccc;
+  border-right: none;
   outline: none;
   box-shadow: none;
   font-family: "Montserrat", sans-serif;
@@ -49,6 +49,7 @@ input[type="text"] {
 }
 
 .clear-button {
+  padding-right: 30px;
   width: 50px; /* Increase the width to make the SVG larger */
   height: 50px; /* Increase the height to make the SVG larger */
   padding: 0;
@@ -57,7 +58,13 @@ input[type="text"] {
   background-color: #ffffff;
   box-sizing: border-box;
   cursor: pointer;
-  border-radius: 15px;
+  /* border-radius: 15px; */
+  border-radius: 0px 15px 15px 0px;
+  float: right;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-left: 2.5px solid #ccc;
 }
 .search-button {
   width: 50px; /* Increase the width to make the SVG larger */
@@ -69,6 +76,7 @@ input[type="text"] {
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 15px;
+  float: left;
 }
 .search-button svg {
   width: 30%; /* SVG will fill the button's width */
@@ -98,24 +106,25 @@ input[type="text"] {
 }
 
 .hiddentabs-decor {
-  display: flex; /* Use flexbox for alignment */
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center children horizontally */
-}
-/* CSS for stock search ends*/
-
-/* .tabs-decor {
-  text-align: center;
+  /* display: flex; 
+  flex-direction: column;  */
+  text-align: center; /* Center children horizontally */
 }
 
 .tablink-decor {
-  width: 70%;
+  height: 60px;
   background-color: #fafafc;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: center;
+  width: 80%;
 }
 
-.tablink {
-  text-decoration: none;
-} */
+.tablink-decor button {
+  background-color: #fafafc;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #828587;
+  height: 60px;
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+}
