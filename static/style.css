@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&family=Roboto:wght@300;500&display=swap");
 
 /* CSS for stock search starts*/
 .stocksearch {
@@ -20,6 +20,7 @@
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
+  font-weight: 300;
 }
 
 .form-decor {
@@ -46,6 +47,7 @@ input[type="text"] {
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
   padding: 0;
+  font-weight: 300;
 }
 
 .clear-button {
@@ -99,10 +101,11 @@ input[type="text"] {
   background-color: #d2d2d2;
   width: 50%;
   border-radius: 10px;
+  font-weight: 300;
 }
 .fill {
   width: 100%;
-  height: 100px;
+  height: 50px;
 }
 
 .hiddentabs-decor {
@@ -132,4 +135,53 @@ input[type="text"] {
   font-size: 20px;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+.company-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.company-styling {
+  padding-top: 20px;
+  font-size: 1em;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: black;
+  font-weight: 300;
+}
+
+.company-info th {
+  padding-left: 90px;
+  text-align: right;
+  font-weight: 500;
+}
+.company-info td {
+  padding: 5px;
+  text-align: left;
+}
+
+.company-styling table {
+  /* margin-left: auto;
+  margin-right: auto; */
+  justify-content: center;
+  align-items: center;
+  border-collapse: collapse;
+}
+
+.company-styling table tr td img {
+  justify-content: center;
+  align-items: center;
+}
+
+.company-styling table tr td[colspan="2"] {
+  text-align: center; /* Center horizontally in the cell */
+  vertical-align: middle; /* Center vertically in the cell */
+}
+.company-styling table tr {
+  border-bottom: 1px solid #e2e2e2;
 }

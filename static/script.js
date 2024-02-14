@@ -96,7 +96,39 @@ function displayCompanyInfo(data) {
   const companyInfoElement = document.getElementById("companyInfo");
   // Ensure the structure is in place or recreate it
   companyInfoElement.innerHTML = `
-    <p>Company Name: ${data.name}</p>
+<div class="company-info">
+<div class="company-styling">
+<table>
+  <tr>
+    <td colspan="2"><img src="${data.logo}" alt="Company Logo" /></td>
+  </tr>
+  <tr>
+    <th>Company Name</th>
+    <td>${data.name}</td>
+  </tr>
+  <tr>
+    <th>Stock Ticker Symbol</th>
+    <td>${data.ticker}</td>
+  </tr>
+  <tr>
+    <th>Stock Exchange Code</th>
+    <td>${data.exchange}</td>
+  </tr>
+  <tr>
+    <th>Company Start Date</th>
+    <td>${data.ipo}</td>
+  </tr>
+  <tr>
+    <th>Category</th>
+    <td>${data.finnhubIndustry}</td>
+  </tr>
+</table>
+</div>
+
+
+</div>
+
+
   `;
   // Continue populating other data as needed
 }
