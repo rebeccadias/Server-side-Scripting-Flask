@@ -109,12 +109,17 @@ input[type="text"] {
   /* display: flex; 
   flex-direction: column;  */
   text-align: center; /* Center children horizontally */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  height: 100%; /* Set a height for the container */
 }
 
 .tablink-decor {
   height: 60px;
   background-color: #fafafc;
-  width: 80%;
+  width: 900px;
+  text-align: left;
 }
 
 .tablink-decor button {
