@@ -17,7 +17,7 @@ function hideAllTabs() {
 }
 
 async function searchStock() {
-  const ticker = document.getElementById("ticker").value.trim();
+  const ticker = document.getElementById("ticker").value.trim().toUpperCase();
   if (!ticker) {
     console.error("Ticker symbol is missing.");
     return;
