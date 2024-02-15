@@ -23,11 +23,8 @@ async function searchStock() {
     return;
   }
 
-  // Show tabs container upon search
-  // Initially show tabs
   document.getElementById("error-message").style.display = "none";
 
-  // Proceed with showing the Company tab as active
   hideAllTabs();
 
   try {
@@ -71,7 +68,6 @@ async function searchStock() {
     const chartData = await chartResponse.json();
     console.log(chartData);
     stockData["chart"] = chartData; // Store chart data for later use
-    // displayCharts()
   } catch (error) {
     console.error("Error fetching chart data:", error);
     displayError(error.message);
@@ -85,63 +81,51 @@ async function searchStock() {
     if (!newsResponse.ok) throw new Error("Network response was not ok");
     const newsData = await newsResponse.json();
     console.log(newsData);
-    stockData["news"] = newsData; // Store news data for later use
+    stockData["news"] = newsData;
   } catch (error) {
     console.error("Error fetching news data:", error);
     displayError(error.message);
   }
-  // Show the Company tab as the default view
-  // openTab(null, 'Company');
 }
 
 function displayCompanyInfo(data) {
   const companyInfoElement = document.getElementById("companyInfo");
-  // Ensure the structure is in place or recreate it
+
   companyInfoElement.innerHTML = `
 
 <div class="company-info">
-<div class="company-styling">
-<table>
-   
-
-  <tr>
-  <td colspan="2"><img src="${data.logo}" alt="Company Logo" /></td>
- </tr>
- <tr> 
-    <th>Company Name</th>
-    <td>${data.name}</td>
-  </tr>
-  <tr>
-    <th>Stock Ticker Symbol</th>
-    <td>${data.ticker}</td>
-  </tr>
-  <tr>
-    <th>Stock Exchange Code</th>
-    <td>${data.exchange}</td>
-  </tr>
-  <tr>
-    <th>Company Start Date</th>
-    <td>${data.ipo}</td>
-  </tr>
-  <tr>
-    <th>Category</th>
-    <td>${data.finnhubIndustry}</td>
-  </tr>
-</table>
+  <div class="company-styling">
+          <table>
+            <tr>
+            <td colspan="2"><img src="${data.logo}" alt="Company Logo" /></td>
+          </tr>
+          <tr> 
+              <th>Company Name</th>
+              <td>${data.name}</td>
+            </tr>
+            <tr>
+              <th>Stock Ticker Symbol</th>
+              <td>${data.ticker}</td>
+            </tr>
+            <tr>
+              <th>Stock Exchange Code</th>
+              <td>${data.exchange}</td>
+            </tr>
+            <tr>
+              <th>Company Start Date</th>
+              <td>${data.ipo}</td>
+            </tr>
+            <tr>
+              <th>Category</th>
+              <td>${data.finnhubIndustry}</td>
+            </tr>
+          </table>
+  </div>
 </div>
-
-
-</div>
-
-
-
-
   `;
-  // Continue populating other data as needed
 }
 
 function displayStockQuote(ticker, quote, recommendationTrends) {
-  // const ticker = document.getElementById("ticker").value.trim();
   var currentDate = new Date();
   var options = {
     year: "numeric",
@@ -149,11 +133,10 @@ function displayStockQuote(ticker, quote, recommendationTrends) {
     day: "2-digit",
   };
 
-  // Format the date as "22 January, 2024"
   var formattedDate = currentDate.toLocaleDateString("en-US", options);
 
   const stockQuoteElement = document.getElementById("stockSummary");
-  // Ensure the structure is in place or recreate it
+
   stockQuoteElement.innerHTML = `<div class="quote-info">
   <div class="quote-styling">
       <table>
@@ -247,20 +230,15 @@ function clearForm() {
   document.getElementById("tabs").style.display = "none";
   document.getElementById("error-message").style.display = "none";
 
-  // Hide the tab contents without clearing their innerHTML
   const tabContents = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabContents.length; i++) {
     tabContents[i].style.display = "none";
   }
 
-  // Remove the 'active' class from all tabs
   const tabLinks = document.getElementsByClassName("tablink");
   for (let i = 0; i < tabLinks.length; i++) {
     tabLinks[i].classList.remove("active");
   }
-
-  // Optionally, also clear any error or information messages
-  // document.getElementById("results").innerHTML = '';
 }
 
 function displayCharts() {
@@ -272,96 +250,114 @@ function displayCharts() {
   const chartData = stockData["chart"].results;
   const ticker = document.getElementById("ticker").value.trim();
   const today = new Date().toISOString().slice(0, 10);
-  const seriesDataPrice = chartData.map(item => [item.t, item.c]);
-  const seriesDataVolume = chartData.map(item => [item.t, item.v]);
+  const seriesDataPrice = chartData.map((item) => [item.t, item.c]);
+  const seriesDataVolume = chartData.map((item) => [item.t, item.v]);
 
-  Highcharts.stockChart('charts', {
+  Highcharts.stockChart("charts", {
     chart: {
-      zoomType: 'x'
+      zoomType: "x",
     },
     title: {
-      text: `Stock Price ${ticker} (${today})`
+      text: `Stock Price ${ticker} (${today})`,
     },
     subtitle: {
-      text: 'Source: Polygon.io',
-      href: 'https://polygon.io/'
+      text: "Source: Polygon.io",
+      href: "https://polygon.io/",
     },
     xAxis: {
-      type: 'datetime'
+      type: "datetime",
     },
-    yAxis: [{
-      // Primary Y-Axis (Stock Price) - Set on the left
-      labels: {
-        formatter: function () {
-          return '$' + this.value;
-        }
+    yAxis: [
+      {
+        // Primary Y-Axis (Stock Price) - Set on the left
+        labels: {
+          formatter: function () {
+            return "$" + this.value;
+          },
+        },
+        title: {
+          text: "Stock Price",
+        },
+        resize: {
+          enabled: true,
+        },
+        opposite: false, // This ensures the axis is on the left
       },
-      title: {
-        text: 'Stock Price'
+      {
+        // Secondary Y-Axis (Volume) - Set on the right
+        title: {
+          text: "Volume",
+        },
+        labels: {
+          formatter: function () {
+            return this.value >= 1000000
+              ? `${this.value / 1000000}M`
+              : `${this.value / 1000}k`;
+          },
+        },
+        opposite: true, // This ensures the axis is on the right
       },
-      resize: {
-        enabled: true
+    ],
+    series: [
+      {
+        name: "Stock Price",
+        type: "area",
+        data: seriesDataPrice,
+        fillColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [
+              1,
+              Highcharts.color(Highcharts.getOptions().colors[0])
+                .setOpacity(0)
+                .get("rgba"),
+            ],
+          ],
+        },
+        threshold: null,
       },
-      opposite: false // This ensures the axis is on the left
-    }, {
-      // Secondary Y-Axis (Volume) - Set on the right
-      title: {
-        text: 'Volume'
+      {
+        name: "Volume",
+        type: "column",
+        yAxis: 1, // This assigns the series to the secondary Y-axis
+        data: seriesDataVolume,
+        color: "black",
       },
-      labels: {
-        formatter: function () {
-          return this.value >= 1000000 ? `${this.value / 1000000}M` : `${this.value / 1000}k`;
-        }
-      },
-      opposite: true // This ensures the axis is on the right
-    }],
-    series: [{
-      name: 'Stock Price',
-      type: 'area',
-      data: seriesDataPrice,
-      fillColor: {
-        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-        stops: [
-          [0, Highcharts.getOptions().colors[0]],
-          [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-        ]
-      },
-      threshold: null
-    }, {
-      name: 'Volume',
-      type: 'column',
-      yAxis: 1, // This assigns the series to the secondary Y-axis
-      data: seriesDataVolume,
-      color: 'black'
-    }],
+    ],
     rangeSelector: {
       enabled: true,
-      buttons: [{
-        type: 'day',
-        count: 7,
-        text: '7D'
-      }, {
-        type: 'day',
-        count: 15,
-        text: '15D'
-      }, {
-        type: 'month',
-        count: 1,
-        text: '1M'
-      }, {
-        type: 'month',
-        count: 3,
-        text: '3M'
-      }, {
-        type: 'month',
-        count: 6,
-        text: '6M'
-      }],
-      selected: 4
-    }
+      buttons: [
+        {
+          type: "day",
+          count: 7,
+          text: "7D",
+        },
+        {
+          type: "day",
+          count: 15,
+          text: "15D",
+        },
+        {
+          type: "month",
+          count: 1,
+          text: "1M",
+        },
+        {
+          type: "month",
+          count: 3,
+          text: "3M",
+        },
+        {
+          type: "month",
+          count: 6,
+          text: "6M",
+        },
+      ],
+      selected: 4,
+    },
   });
 }
-
 
 function displayNews() {
   const newsData = stockData["news"];
@@ -369,15 +365,18 @@ function displayNews() {
   let newsHTML = "";
 
   newsData.forEach((news) => {
+    var formattedDate = formatDate(news.datetime);
+    console.log(formattedDate);
     newsHTML += `
           <div class="news-item">
-              <p><a href="${news.url}" target="_blank">${news.headline}</a></p>
-              <img src="${
-                news.image
-              }" alt="News Image" style="width:100px;"><br>
-              <span>Published at: ${new Date(
-                news.datetime * 1000
-              ).toLocaleDateString()}</span>
+            <div class="news-item-image">
+              <img src="${news.image}" alt="News Image" >
+            </div>
+            <div class="news-item-info">
+              <div class="title">${news.headline}</div> 
+              <div class="date"> ${formattedDate}</div> 
+              <div class="og-post"><a href="${news.url}" target="_blank">See Original Post</a></div>
+            </div>
           </div>
       `;
   });
@@ -401,4 +400,14 @@ function openTab(evt, tabName) {
 
   if (tabName === "Charts") displayCharts();
   if (tabName === "LatestNews") displayNews();
+}
+
+function formatDate(dateString) {
+  const date = new Date(parseInt(dateString) * 1000);
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const formattedDate = date.toLocaleDateString("en-GB", options);
+  return formattedDate.replace(
+    /(\d{1,2}) (\w+) (\d{4})/,
+    (match, day, month, year) => `${day} ${month}, ${year}`
+  );
 }

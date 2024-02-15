@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&family=Roboto:wght@300;500&display=swap");
 
-/* CSS for stock search starts*/
 .stocksearch {
   background-image: url("../static/img/back.svg");
   width: 100%;
@@ -8,9 +7,9 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  display: flex; /* Use flexbox for alignment */
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center children horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .stocksearch-wordings {
@@ -53,15 +52,15 @@ input[type="text"] {
 
 .clear-button {
   padding-right: 30px;
-  width: 50px; /* Increase the width to make the SVG larger */
-  height: 50px; /* Increase the height to make the SVG larger */
+  width: 50px;
+  height: 50px;
   padding: 0;
   border: none;
   outline: none;
   background-color: #ffffff;
   box-sizing: border-box;
   cursor: pointer;
-  /* border-radius: 15px; */
+
   border-radius: 0px 15px 15px 0px;
   float: right;
   border-top: none;
@@ -70,8 +69,8 @@ input[type="text"] {
   border-left: 2.5px solid #ccc;
 }
 .search-button {
-  width: 50px; /* Increase the width to make the SVG larger */
-  height: 50px; /* Increase the height to make the SVG larger */
+  width: 50px;
+  height: 50px;
   padding: 0;
   border: none;
   outline: none;
@@ -82,12 +81,12 @@ input[type="text"] {
   float: left;
 }
 .search-button svg {
-  width: 30%; /* SVG will fill the button's width */
-  height: 30%; /* SVG will fill the button's height */
+  width: 30%;
+  height: 30%;
 }
 .clear-button svg {
-  width: 30%; /* SVG will fill the button's width */
-  height: 30%; /* SVG will fill the button's height */
+  width: 30%;
+  height: 30%;
 }
 
 .error-decor {
@@ -148,8 +147,8 @@ input[type="text"] {
 
 .company-styling {
   font-size: 1em;
-  justify-content: center; /* Center children horizontally */
-  align-items: center; /* Center children vertically */
+  justify-content: center;
+  align-items: center;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
   color: black;
@@ -182,8 +181,8 @@ input[type="text"] {
 }
 
 .company-styling table tr td[colspan="2"] {
-  text-align: center; /* Center horizontally in the cell */
-  vertical-align: middle; /* Center vertically in the cell */
+  text-align: center;
+  vertical-align: middle;
 }
 .company-styling table tr {
   border-bottom: 1px solid #e2e2e2;
@@ -205,9 +204,8 @@ input[type="text"] {
 
 .quote-styling {
   font-size: 1em;
-  justify-content: center; /* Center children horizontally */
-  align-items: center; /* Center children vertically */
-
+  justify-content: center;
+  align-items: center;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
   color: black;
@@ -229,8 +227,8 @@ input[type="text"] {
 }
 .quote-info {
   display: flex;
-  justify-content: center; /* Center children horizontally */
-  align-items: center; /* Center children vertically */
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 .filler {
@@ -252,8 +250,8 @@ input[type="text"] {
 
 .recommendations-tab {
   display: flex;
-  justify-content: center; /* Center children horizontally */
-  align-items: center; /* Center children vertically */
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
 }
 
@@ -306,6 +304,48 @@ input[type="text"] {
 }
 
 .stock-arrow img {
-  width: 100%; /* Make the image fill the width of the div */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%;
+  height: auto;
+}
+
+.news-item {
+  background-color: #fafafc;
+  display: flex;
+  flex-direction: row;
+  width: 900px;
+  margin-bottom: 20px;
+}
+
+.news-item-image img {
+  padding: 10px;
+  width: 80px;
+  height: 80px;
+  overflow: contain;
+}
+
+.news-item-info {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  color: black;
+  text-align: left;
+}
+.date {
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: black;
+  text-align: left;
+}
+
+.og-post {
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  text-align: left;
 }

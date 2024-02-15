@@ -29,7 +29,7 @@ def get_stock_info():
 
     # Fetch Company Profile
     profile_url = f"https://finnhub.io/api/v1/stock/profile2?symbol={ticker}&token={FINNHUB_API_KEY}"
-    print(profile_url)
+
     responses['profile'] = requests.get(profile_url).json()
 
     if 'error' in responses['profile']:
@@ -57,7 +57,7 @@ def get_stock_chart():
 
     # Construct the API URL for fetching historical data
     chart_url = f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{from_date}/{to_date}?adjusted=true&sort=asc&apiKey=BKNanm3UkObHTvdgfAZNXgV7NrFu8aGr"
-    print(chart_url)
+  
     try:
         response = requests.get(chart_url)
         response.raise_for_status()  # Raises an HTTPError for bad responses
