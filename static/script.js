@@ -264,17 +264,140 @@ function clearForm() {
 }
 
 function displayCharts() {
-  // Process and display chart data
-  // This part depends on how you're integrating with your charting library
-  // For example, you might need to map `chartData` to the format expected by HighCharts or Chart.js
-  // Then, you'd render the chart using the mapped data
-  // For now, let's just log the chart data
-  const chartData = stockData["chart"];
-  // console.log(chartData);
-  // Display chart data
-  const chartElement = document.getElementById("charts");
-  chartElement.innerHTML = `<p>Chart data will be displayed here.</p>`;
+  if (!stockData["chart"] || !stockData["chart"].results) {
+    console.error("No chart data available");
+    return;
+  }
+
+  const chartData = stockData["chart"].results;
+  const categories = chartData.map(item => Highcharts.dateFormat('%e %b', new Date(item.t)));
+  const seriesDataPrice = chartData.map(item => [item.t, item.c]);
+  const seriesDataVolume = chartData.map(item => [item.t, item.v]);
+
+  Highcharts.chart('charts', {
+    chart: {
+      zoomType: 'x', // Enable zooming
+      type: 'area' // Default type for all series unless specified
+    },
+    title: {
+      text: `Stock Price and Volume`
+    },
+    subtitle: {
+      text: 'Source: Polygon.io',
+      href: 'https://polygon.io/'
+    },
+    xAxis: [{
+      type: 'datetime',
+      dateTimeLabelFormats: { // don't display the dummy year
+        month: '%e. %b',
+        year: '%b'
+      },
+      title: {
+        text: 'Date'
+      }
+    }],
+    yAxis: [{ // Primary yAxis for Stock Price
+      labels: {
+        formatter: function () {
+          return this.value + ' USD';
+        },
+        style: {
+          color: Highcharts.getOptions().colors[1]
+        }
+      },
+      title: {
+        text: 'Stock Price',
+        style: {
+          color: Highcharts.getOptions().colors[1]
+        }
+      }
+    }, { // Secondary yAxis for Volume
+      title: {
+        text: 'Volume',
+        style: {
+          color: 'black'
+        }
+      },
+      labels: {
+        formatter: function () {
+          return Highcharts.numberFormat(this.value / 1000000, 0) + 'M';
+        },
+        style: {
+          color: 'black'
+        }
+      },
+      opposite: true
+    }],
+    tooltip: {
+      shared: true
+    },
+    plotOptions: {
+      area: {
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+          ]
+        },
+        marker: {
+          radius: 2
+        },
+        lineWidth: 1,
+        states: {
+          hover: {
+            lineWidth: 1
+          }
+        },
+        threshold: null
+      },
+      column: {
+        color: 'black' // Set volume series color to black
+      }
+    },
+    series: [{
+      type: 'column',
+      name: 'Volume',
+      yAxis: 1,
+      data: seriesDataVolume
+    }, {
+      type: 'area', // Specifically setting the stock price series to area
+      name: 'Stock Price',
+      data: seriesDataPrice
+    }],
+    rangeSelector: {
+      buttons: [{
+        type: 'day',
+        count: 7,
+        text: '7D'
+      }, {
+        type: 'day',
+        count: 15,
+        text: '15D'
+      }, {
+        type: 'month',
+        count: 1,
+        text: '1M'
+      }, {
+        type: 'month',
+        count: 3,
+        text: '3M'
+      }, {
+        type: 'month',
+        count: 6,
+        text: '6M'
+      }],
+      selected: 4, // default selection (6M)
+      inputEnabled: false
+    }
+  });
 }
+
 
 function displayNews() {
   const newsData = stockData["news"];
