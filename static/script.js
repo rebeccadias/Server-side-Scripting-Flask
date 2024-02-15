@@ -270,107 +270,72 @@ function displayCharts() {
   }
 
   const chartData = stockData["chart"].results;
-  const categories = chartData.map(item => Highcharts.dateFormat('%e %b', new Date(item.t)));
+  const ticker = document.getElementById("ticker").value.trim();
+  const today = new Date().toISOString().slice(0, 10);
   const seriesDataPrice = chartData.map(item => [item.t, item.c]);
   const seriesDataVolume = chartData.map(item => [item.t, item.v]);
 
-  Highcharts.chart('charts', {
+  Highcharts.stockChart('charts', {
     chart: {
-      zoomType: 'x', // Enable zooming
-      type: 'area' // Default type for all series unless specified
+      zoomType: 'x'
     },
     title: {
-      text: `Stock Price and Volume`
+      text: `Stock Price ${ticker} (${today})`
     },
     subtitle: {
       text: 'Source: Polygon.io',
       href: 'https://polygon.io/'
     },
-    xAxis: [{
-      type: 'datetime',
-      dateTimeLabelFormats: { // don't display the dummy year
-        month: '%e. %b',
-        year: '%b'
-      },
-      title: {
-        text: 'Date'
-      }
-    }],
-    yAxis: [{ // Primary yAxis for Stock Price
+    xAxis: {
+      type: 'datetime'
+    },
+    yAxis: [{
+      // Primary Y-Axis (Stock Price) - Set on the left
       labels: {
         formatter: function () {
-          return this.value + ' USD';
-        },
-        style: {
-          color: Highcharts.getOptions().colors[1]
+          return '$' + this.value;
         }
       },
       title: {
-        text: 'Stock Price',
-        style: {
-          color: Highcharts.getOptions().colors[1]
-        }
-      }
-    }, { // Secondary yAxis for Volume
-      title: {
-        text: 'Volume',
-        style: {
-          color: 'black'
-        }
+        text: 'Stock Price'
       },
-      labels: {
-        formatter: function () {
-          return Highcharts.numberFormat(this.value / 1000000, 0) + 'M';
-        },
-        style: {
-          color: 'black'
-        }
+      resize: {
+        enabled: true
       },
-      opposite: true
-    }],
-    tooltip: {
-      shared: true
-    },
-    plotOptions: {
-      area: {
-        fillColor: {
-          linearGradient: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 1
-          },
-          stops: [
-            [0, Highcharts.getOptions().colors[0]],
-            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-          ]
-        },
-        marker: {
-          radius: 2
-        },
-        lineWidth: 1,
-        states: {
-          hover: {
-            lineWidth: 1
-          }
-        },
-        threshold: null
-      },
-      column: {
-        color: 'black' // Set volume series color to black
-      }
-    },
-    series: [{
-      type: 'column',
-      name: 'Volume',
-      yAxis: 1,
-      data: seriesDataVolume
+      opposite: false // This ensures the axis is on the left
     }, {
-      type: 'area', // Specifically setting the stock price series to area
+      // Secondary Y-Axis (Volume) - Set on the right
+      title: {
+        text: 'Volume'
+      },
+      labels: {
+        formatter: function () {
+          return this.value >= 1000000 ? `${this.value / 1000000}M` : `${this.value / 1000}k`;
+        }
+      },
+      opposite: true // This ensures the axis is on the right
+    }],
+    series: [{
       name: 'Stock Price',
-      data: seriesDataPrice
+      type: 'area',
+      data: seriesDataPrice,
+      fillColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, Highcharts.getOptions().colors[0]],
+          [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+        ]
+      },
+      threshold: null
+    }, {
+      name: 'Volume',
+      type: 'column',
+      yAxis: 1, // This assigns the series to the secondary Y-axis
+      data: seriesDataVolume,
+      color: 'black'
     }],
     rangeSelector: {
+      enabled: true,
       buttons: [{
         type: 'day',
         count: 7,
@@ -392,8 +357,7 @@ function displayCharts() {
         count: 6,
         text: '6M'
       }],
-      selected: 4, // default selection (6M)
-      inputEnabled: false
+      selected: 4
     }
   });
 }
