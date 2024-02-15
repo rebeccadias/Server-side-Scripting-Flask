@@ -258,11 +258,11 @@ function displayCharts() {
       zoomType: "x",
     },
     title: {
-      text: `Stock Price ${ticker} (${today})`,
+      text: `Stock Price ${ticker} ${today}`,
     },
     subtitle: {
-      text: "Source: Polygon.io",
-      href: "https://polygon.io/",
+      text: '<a href="https://polygon.io/" target="_blank">Source: Polygon.io</a>',
+      useHTML: true,
     },
     xAxis: {
       type: "datetime",
@@ -366,7 +366,7 @@ function displayNews() {
 
   newsData.forEach((news) => {
     var formattedDate = formatDate(news.datetime);
-    console.log(formattedDate);
+
     newsHTML += `
           <div class="news-item">
             <div class="news-item-image">
