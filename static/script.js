@@ -268,6 +268,11 @@ function displayCharts() {
     xAxis: {
       type: "datetime",
     },
+    plotOptions: {
+      column: {
+        pointWidth: 4,
+      },
+    },
     yAxis: [
       {
         // Primary Y-Axis (Stock Price) - Set on the left
@@ -327,32 +332,33 @@ function displayCharts() {
       },
     ],
     rangeSelector: {
+      inputEnabled: false,
       enabled: true,
       buttons: [
         {
           type: "day",
           count: 7,
-          text: "7D",
+          text: "7d",
         },
         {
           type: "day",
           count: 15,
-          text: "15D",
+          text: "15d",
         },
         {
           type: "month",
           count: 1,
-          text: "1M",
+          text: "1m",
         },
         {
           type: "month",
           count: 3,
-          text: "3M",
+          text: "3m",
         },
         {
           type: "month",
           count: 6,
-          text: "6M",
+          text: "6m",
         },
       ],
       selected: 4,
