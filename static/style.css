@@ -254,6 +254,13 @@ input[type="text"] {
   align-items: center;
   flex-direction: row;
 }
+.rec-trends-text {
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
 
 .sell {
   padding-right: 10px;

@@ -210,6 +210,7 @@ function displayStockQuote(ticker, quote, recommendationTrends) {
       </div>
       <h4 class="buy">Strong <br> Buy </h4>
   </div>
+  <div class="rec-trends-text"> Recommendation Trends </div> 
 </div>
 
 
