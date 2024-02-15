@@ -52,7 +52,11 @@ async function searchStock() {
     }
     console.log(profileData);
     displayCompanyInfo(profileData.profile);
-    displayStockQuote(profileData.quote, profileData.recommendationTrends);
+    displayStockQuote(
+      profileData.profile.ticker,
+      profileData.quote,
+      profileData.recommendation[0]
+    );
   } catch (error) {
     console.error("Error fetching data:", error);
     displayError(error.message);
@@ -90,19 +94,20 @@ async function searchStock() {
   // openTab(null, 'Company');
 }
 
-// Continue with your existing displayCompanyInfo, displayError, clearForm, and openTab functions
-
 function displayCompanyInfo(data) {
   const companyInfoElement = document.getElementById("companyInfo");
   // Ensure the structure is in place or recreate it
   companyInfoElement.innerHTML = `
+
 <div class="company-info">
 <div class="company-styling">
 <table>
+   
+
   <tr>
-    <td colspan="2"><img src="${data.logo}" alt="Company Logo" /></td>
-  </tr>
-  <tr>
+  <td colspan="2"><img src="${data.logo}" alt="Company Logo" /></td>
+ </tr>
+ <tr> 
     <th>Company Name</th>
     <td>${data.name}</td>
   </tr>
@@ -129,19 +134,102 @@ function displayCompanyInfo(data) {
 </div>
 
 
+
+
   `;
   // Continue populating other data as needed
 }
 
-function displayStockQuote(quote, recommendationTrends) {
+function displayStockQuote(ticker, quote, recommendationTrends) {
+  // const ticker = document.getElementById("ticker").value.trim();
+  var currentDate = new Date();
+  var options = {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  };
+
+  // Format the date as "22 January, 2024"
+  var formattedDate = currentDate.toLocaleDateString("en-US", options);
+
   const stockQuoteElement = document.getElementById("stockSummary");
   // Ensure the structure is in place or recreate it
-  stockQuoteElement.innerHTML = `
-    <p>Current Price: $${quote.c}</p>
-    <p>High Price of the Day: $${quote.h}</p>
-    <p>Low Price of the Day: $${quote.l}</p>
-    <p>Open Price of the Day: $${quote.o}</p>
-    <p>Previous Close Price: $${quote.pc}</p>
+  stockQuoteElement.innerHTML = `<div class="quote-info">
+  <div class="quote-styling">
+      <table>
+          <tr>
+              <th>Stock Ticker Symbol</th>
+              <td>${ticker}</td>
+          </tr>
+          <tr>
+              <th>Trading Day</th>
+              <td>${formattedDate}</td>
+          </tr>
+          <tr>
+              <th>Previous Closing Price</th>
+              <td>${quote.pc}</td>
+          </tr>
+          <tr>
+              <th>Opening Price</th>
+              <td>${quote.o}</td>
+          </tr>
+          <tr>
+              <th>High Price</th>
+              <td>${quote.h}</td>
+          </tr>
+          <tr>
+              <th>Low Price</th>
+              <td>${quote.l}</td>
+          </tr>
+          <tr>
+              <th>Change</th>
+              <td style="display: flex; align-items: center;">${
+                quote.d
+              } <div class="stock-arrow"> <img src="${
+    quote.d < 0
+      ? "../static/img/RedArrowDown.png"
+      : "../static/img/GreenArrowUp.png"
+  }" alt="Arrow" /></div> </td>
+          </tr>
+          <tr>
+              <th>Change Percent</th>
+              <td style="display: flex; align-items: center;">${
+                quote.dp
+              }<div class="stock-arrow"> <img src="${
+    quote.d < 0
+      ? "../static/img/RedArrowDown.png"
+      : "../static/img/GreenArrowUp.png"
+  }" alt="Arrow" /></div></td>
+          </tr>
+      </table>
+  </div>
+
+  <div class="filler"></div>
+
+  <div class="recommendations-tab">
+      <h4 class="sell">Strong <br> Sell </h4>
+      <div class="recommendation-trends">
+          <div class="recommendation-trends-child1">
+              ${recommendationTrends.strongSell}
+          </div>
+          <div class="recommendation-trends-child2">
+              ${recommendationTrends.sell}
+          </div>
+          <div class="recommendation-trends-child3">
+              ${recommendationTrends.hold}
+          </div>
+          <div class="recommendation-trends-child4">
+              ${recommendationTrends.buy}
+          </div>
+          <div class="recommendation-trends-child5">
+              ${recommendationTrends.strongBuy}
+          </div>
+      </div>
+      <h4 class="buy">Strong <br> Buy </h4>
+  </div>
+</div>
+
+
   `;
 }
 

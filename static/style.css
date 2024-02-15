@@ -34,7 +34,7 @@
 }
 
 input[type="text"] {
-  width: 85%;
+  width: 200px;
   height: 50px;
   box-sizing: border-box;
   font-size: 16px;
@@ -48,6 +48,7 @@ input[type="text"] {
   font-family: "Roboto", sans-serif;
   padding: 0;
   font-weight: 300;
+  float: left;
 }
 
 .clear-button {
@@ -109,13 +110,14 @@ input[type="text"] {
 }
 
 .hiddentabs-decor {
-  /* display: flex; 
-  flex-direction: column;  */
-  text-align: center; /* Center children horizontally */
+  text-align: center;
   display: flex;
-  justify-content: center; /* Center children horizontally */
-  align-items: center; /* Center children vertically */
-  height: 100%; /* Set a height for the container */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.tabcontent {
+  padding-top: 20px;
 }
 
 .tablink-decor {
@@ -143,8 +145,65 @@ input[type="text"] {
   justify-content: center;
   align-items: center;
 }
+
 .company-styling {
-  padding-top: 20px;
+  font-size: 1em;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: black;
+  font-weight: 300;
+}
+
+.company-info th {
+  text-align: right;
+  font-weight: 500;
+  padding-left: 85px;
+}
+.company-info td {
+  padding: 5px;
+  text-align: left;
+  padding-right: 10px;
+}
+
+.company-styling table {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-collapse: collapse;
+}
+
+.company-styling table tr td img {
+  justify-content: center;
+  align-items: center;
+  width: 85px;
+  height: 85px;
+}
+
+.company-styling table tr td[colspan="2"] {
+  text-align: center; /* Center horizontally in the cell */
+  vertical-align: middle; /* Center vertically in the cell */
+}
+.company-styling table tr {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.quote-info td {
+  padding-top: 5px;
+  text-align: left;
+  padding-right: 35px;
+  padding-bottom: 5px;
+}
+
+.quote-info th {
+  padding-top: 5px;
+  text-align: right;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+.quote-styling {
   font-size: 1em;
   justify-content: center; /* Center children horizontally */
   align-items: center; /* Center children vertically */
@@ -155,33 +214,98 @@ input[type="text"] {
   font-weight: 300;
 }
 
-.company-info th {
-  padding-left: 90px;
-  text-align: right;
-  font-weight: 500;
-}
-.company-info td {
-  padding: 5px;
-  text-align: left;
-}
-
-.company-styling table {
-  /* margin-left: auto;
-  margin-right: auto; */
-  justify-content: center;
-  align-items: center;
+.quote-styling table {
+  width: 100%;
   border-collapse: collapse;
 }
 
-.company-styling table tr td img {
-  justify-content: center;
-  align-items: center;
+.quote-styling table tr {
+  padding-right: 20px;
+  border-bottom: 1px solid #e2e2e2;
 }
 
-.company-styling table tr td[colspan="2"] {
-  text-align: center; /* Center horizontally in the cell */
-  vertical-align: middle; /* Center vertically in the cell */
+.quote-styling table {
+  border-top: 1px solid #e2e2e2;
 }
-.company-styling table tr {
-  border-bottom: 1px solid #e2e2e2;
+.quote-info {
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  flex-direction: column;
+}
+.filler {
+  height: 30px;
+}
+
+.recommendation-trends {
+  height: 50px;
+  width: 250px;
+  display: flex;
+  flex-direction: row;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 50px;
+}
+
+.recommendations-tab {
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  flex-direction: row;
+}
+
+.sell {
+  padding-right: 10px;
+  color: red;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+.buy {
+  padding-left: 10px;
+  color: green;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+.recommendation-trends-child1 {
+  width: 50px;
+  background-color: red;
+}
+
+.recommendation-trends-child2 {
+  width: 50px;
+  background-color: #b25f4a;
+}
+
+.recommendation-trends-child3 {
+  width: 50px;
+  background-color: #78945c;
+}
+
+.recommendation-trends-child4 {
+  width: 50px;
+  background-color: #3cca6c;
+}
+
+.recommendation-trends-child5 {
+  width: 50px;
+  background-color: #07ff7e;
+}
+
+.stock-arrow {
+  padding-top: 2px;
+  padding-left: 5px;
+  width: 15px;
+  height: 15px;
+  overflow: hidden;
+}
+
+.stock-arrow img {
+  width: 100%; /* Make the image fill the width of the div */
+  height: auto; /* Maintain aspect ratio */
 }
