@@ -250,7 +250,7 @@ function displayCharts() {
   }
 
   const chartData = stockData["chart"].results;
-  const ticker = document.getElementById("ticker").value.trim();
+  const ticker = document.getElementById("ticker").value.trim().toUpperCase();
   const today = new Date().toISOString().slice(0, 10);
   const seriesDataPrice = chartData.map((item) => [item.t, item.c]);
   const seriesDataVolume = chartData.map((item) => [item.t, item.v]);
@@ -279,7 +279,7 @@ function displayCharts() {
         // Primary Y-Axis (Stock Price) - Set on the left
         labels: {
           formatter: function () {
-            return "$" + this.value;
+            return this.value;
           },
         },
         title: {
@@ -362,7 +362,7 @@ function displayCharts() {
           text: "6m",
         },
       ],
-      selected: 4,
+      selected: 0,
     },
   });
 }
