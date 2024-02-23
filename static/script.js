@@ -260,7 +260,7 @@ function displayCharts() {
   const seriesDataPrice = chartData.map((item) => [item.t, item.c]);
   const seriesDataVolume = chartData.map((item) => [item.t, item.v]);
   const maxVolume = Math.max(...seriesDataVolume.map((item) => item[1])); // Find the highest volume value
-  const yAxisVolumeMax = maxVolume * 1.2; // Increase by 20% for some headroom
+  const yAxisVolumeMax = maxVolume * 1.8; // Increase by 20% for some headroom
 
   // Check if the chart already exists before creating a new one
   if (myChart) {
@@ -284,6 +284,11 @@ function displayCharts() {
       },
       xAxis: {
         type: "datetime",
+      },
+      plotOptions: {
+        column: {
+          pointWidth: 4,
+        },
       },
       yAxis: [
         {
@@ -379,135 +384,6 @@ function displayCharts() {
     });
   }
 }
-
-// function displayCharts() {
-//   if (!stockData["chart"] || !stockData["chart"].results) {
-//     console.error("No chart data available");
-//     return;
-//   }
-
-//   const chartData = stockData["chart"].results;
-//   const ticker = document.getElementById("ticker").value.trim().toUpperCase();
-//   const today = new Date().toISOString().slice(0, 10);
-//   const seriesDataPrice = chartData.map((item) => [item.t, item.c]);
-//   const seriesDataVolume = chartData.map((item) => [item.t, item.v]);
-//   const maxVolume = Math.max(...seriesDataVolume.map((item) => item[1])); // Find the highest volume value
-//   const yAxisVolumeMax = maxVolume * 1.2; // Increase by 20% for some headroom
-
-//   Highcharts.stockChart("charts", {
-//     chart: {
-//       zoomType: "x",
-//     },
-//     title: {
-//       text: `Stock Price ${ticker} ${today}`,
-//     },
-//     subtitle: {
-//       text: '<a href="https://polygon.io/" target="_blank">Source: Polygon.io</a>',
-//       useHTML: true,
-//     },
-//     xAxis: {
-//       type: "datetime",
-//     },
-//     plotOptions: {
-//       column: {
-//         pointWidth: 4,
-//       },
-//     },
-//     yAxis: [
-//       {
-//         // Primary Y-Axis (Stock Price) - Set on the left
-//         labels: {
-//           formatter: function () {
-//             return this.value;
-//           },
-//         },
-//         title: {
-//           text: "Stock Price",
-//         },
-//         resize: {
-//           enabled: true,
-//         },
-//         opposite: false, // This ensures the axis is on the left
-//       },
-//       {
-//         // Secondary Y-Axis (Volume) - Set on the right
-//         max: yAxisVolumeMax, // Increase by 20% for some headroom
-//         title: {
-//           text: "Volume",
-//         },
-//         labels: {
-//           formatter: function () {
-//             return this.value >= 1000000
-//               ? `${this.value / 1000000}M`
-//               : `${this.value / 1000}k`;
-//           },
-//         },
-//         opposite: true, // This ensures the axis is on the right
-//       },
-//     ],
-//     series: [
-//       {
-//         name: "Stock Price",
-//         type: "area",
-//         data: seriesDataPrice,
-//         fillColor: {
-//           linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-//           stops: [
-//             [0, Highcharts.getOptions().colors[0]],
-//             [
-//               1,
-//               Highcharts.color(Highcharts.getOptions().colors[0])
-//                 .setOpacity(0)
-//                 .get("rgba"),
-//             ],
-//           ],
-//         },
-//         threshold: null,
-//         pointPlacement: "on",
-//       },
-//       {
-//         name: "Volume",
-//         type: "column",
-//         yAxis: 1, // This assigns the series to the secondary Y-axis
-//         data: seriesDataVolume,
-//         color: "black",
-//         pointPlacement: "on",
-//       },
-//     ],
-//     rangeSelector: {
-//       inputEnabled: false,
-//       enabled: true,
-//       buttons: [
-//         {
-//           type: "day",
-//           count: 7,
-//           text: "7d",
-//         },
-//         {
-//           type: "day",
-//           count: 15,
-//           text: "15d",
-//         },
-//         {
-//           type: "month",
-//           count: 1,
-//           text: "1m",
-//         },
-//         {
-//           type: "month",
-//           count: 3,
-//           text: "3m",
-//         },
-//         {
-//           type: "month",
-//           count: 6,
-//           text: "6m",
-//         },
-//       ],
-//       selected: 0,
-//     },
-//   });
-// }
 
 function displayNews() {
   const newsData = stockData["news"];
