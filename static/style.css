@@ -124,6 +124,7 @@ input[type="text"] {
   background-color: #fafafc;
   width: 900px;
   text-align: left;
+  gap: 0px;
 }
 
 .tablink-decor button {
@@ -131,7 +132,7 @@ input[type="text"] {
   border: none;
   outline: none;
   cursor: pointer;
-  color: #828587;
+  color: black;
   height: 60px;
   font-size: 20px;
   font-family: "Montserrat", sans-serif;
@@ -356,3 +357,12 @@ input[type="text"] {
   font-weight: 300;
   text-align: left;
 }
+
+.tablink.active {
+  background-color: #cccccc;
+  color: black;
+}
+
+/* .tablink:hover {
+  background-color: #e1e1e1; 
+} */
