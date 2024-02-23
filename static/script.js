@@ -133,7 +133,8 @@ function displayStockQuote(ticker, quote, recommendationTrends) {
     day: "2-digit",
   };
 
-  var formattedDate = currentDate.toLocaleDateString("en-US", options);
+  var formattedDate = currentDate.toLocaleDateString("en-GB", options);
+  formattedDate = formattedDate.replace(/(\d+)\s(\w+)\s(\d+)/, "$1 $2, $3");
 
   const stockQuoteElement = document.getElementById("stockSummary");
 
