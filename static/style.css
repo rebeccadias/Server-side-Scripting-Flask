@@ -366,3 +366,7 @@ input[type="text"] {
 /* .tablink:hover {
   background-color: #e1e1e1; 
 } */
+
+#charts {
+  height: 550px;
+}

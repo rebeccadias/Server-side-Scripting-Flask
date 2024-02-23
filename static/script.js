@@ -254,6 +254,8 @@ function displayCharts() {
   const today = new Date().toISOString().slice(0, 10);
   const seriesDataPrice = chartData.map((item) => [item.t, item.c]);
   const seriesDataVolume = chartData.map((item) => [item.t, item.v]);
+  const maxVolume = Math.max(...seriesDataVolume.map((item) => item[1])); // Find the highest volume value
+  const yAxisVolumeMax = maxVolume * 1.2; // Increase by 20% for some headroom
 
   Highcharts.stockChart("charts", {
     chart: {
@@ -292,6 +294,7 @@ function displayCharts() {
       },
       {
         // Secondary Y-Axis (Volume) - Set on the right
+        max: yAxisVolumeMax, // Increase by 20% for some headroom
         title: {
           text: "Volume",
         },
@@ -323,6 +326,7 @@ function displayCharts() {
           ],
         },
         threshold: null,
+        pointPlacement: "on",
       },
       {
         name: "Volume",
@@ -330,6 +334,7 @@ function displayCharts() {
         yAxis: 1, // This assigns the series to the secondary Y-axis
         data: seriesDataVolume,
         color: "black",
+        pointPlacement: "on",
       },
     ],
     rangeSelector: {
