@@ -1,6 +1,6 @@
 # Server-side-Scripting-Flask 
 
-## [Link to the website]([url](https://finntechstocks.uw.r.appspot.com/))
+## [Link to the website](https://finntechstocks.uw.r.appspot.com/)
 
 ### Setup to run the Project
 
